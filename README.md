@@ -62,16 +62,16 @@ PORT=5000
 
 ## 🧪 How to Run Locally
 
-# 1. Clone the repo
+### 1. Clone the repo
 git clone https://github.com/Hariprasath-2218/Hask-ai.git
 cd hask-ai-website
 
-# 2. Setup backend
+### 2. Setup backend
 cd backend
 npm install
 npm run dev
 
-# 3. Setup frontend
+### 3. Setup frontend
 cd ../frontend
 npm install
 npm run dev

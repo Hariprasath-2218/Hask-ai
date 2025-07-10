@@ -51,6 +51,8 @@ hask-ai-website/
 │   ├── models/
 │   └── server.js
 
+```
+
 ## 🔐 Environment Variables
 
 GROQ_API_KEY=your_groq_key

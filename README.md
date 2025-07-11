@@ -55,10 +55,10 @@ hask-ai-website/
 
 ## 🔐 Environment Variables
 
-GROQ_API_KEY=your_groq_key
-HUGGINGFACE_API_KEY=your_huggingface_token
-MONGO_URI=your_mongodb_connection_string
-PORT=5000
+-GROQ_API_KEY=your_groq_key
+-HUGGINGFACE_API_KEY=your_huggingface_token
+-MONGO_URI=your_mongodb_connection_string
+-PORT=5000
 
 ## 🧪 How to Run Locally
 

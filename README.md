@@ -2,7 +2,7 @@
 
 Hask AI is an intelligent chatbot web application that integrates both **text-to-text** and **text-to-image** generation using the **Groq AI API** and **Hugging Face API**. Designed with modern full-stack architecture, it delivers secure user authentication, interactive chat experience, and dynamic image generation — all in one.
 
-![Hask AI Banner](https://your-banner-image-link.com) <!-- Optional: replace with actual banner -->
+
 
 ---
 
@@ -27,9 +27,9 @@ Hask AI is an intelligent chatbot web application that integrates both **text-to
 
 | Frontend        | Backend        | APIs Used         | Auth             |
 |-----------------|----------------|-------------------|------------------|
-| React.js        | Node.js        | Groq AI (LLM)     | Firebase Auth    |
-| Tailwind CSS    | Express.js     | Hugging Face (T2I)| Firestore DB     |
-| Vite            | MongoDB        | Axios             | JWT (planned)    |
+| React.js        | Node.js        | Groq AI (LLM)     |  JWT (planned)   |
+| Tailwind CSS    | Express.js     | Hugging Face (T2I)|                  | 
+| Vite            | MongoDB        | Axios             |                  |
 
 ---
 

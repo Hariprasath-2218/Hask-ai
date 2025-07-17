@@ -2,13 +2,12 @@
 import React, { useState } from "react";
 import { MessageCircle, Image, LogOut, User, Loader2 } from "lucide-react";
 import { useAuth } from "./context/AuthContext";
-
 import Login from "./components/Auth/Login";
 import Register from "./components/Auth/Register";
 import ChatInterface from "./components/Chat/ChatInterface";
 import ImageGenerator from "./components/Image/ImageGenerator";
 // import Header from "./components/Layout/Header";
-// import Sidebar from "./components/Layout/Sidebar";
+// // import Sidebar from "./components/Layout/Sidebar";
 
 
 const App = () => {

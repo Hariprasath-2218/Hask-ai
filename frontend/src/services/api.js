@@ -1,4 +1,4 @@
-const api = {
+const api = { 
   baseURL: '/api',
 
   async request(endpoint, options = {}) {
@@ -8,6 +8,24 @@ const api = {
         'Content-Type': 'application/json',
         ...(token && { Authorization: `Bearer ${token}` }),
       },
+      ...options,
+    };
+
+    const response = await fetch(`${this.baseURL}${endpoint}`, config);
+    const data = await response.json();
+    if (!response.ok) throw new Error(data.message || 'Something went wrong');
+    return data;
+  },
+
+  async requestFormData(endpoint, formData, options = {}) {
+    const token = localStorage.getItem('token');
+    const config = {
+      headers: {
+        ...(token && { Authorization: `Bearer ${token}` }),
+
+      },
+      method: 'POST',
+      body: formData,
       ...options,
     };
 
@@ -45,6 +63,8 @@ const api = {
         method: 'POST',
         body: JSON.stringify({ prompt }),
       }),
+    generateImageToImage: (formData) =>
+      api.requestFormData('/image/generate-image-to-image', formData),
     getHistory: () => api.request('/image/history'),
   },
 };

@@ -8,11 +8,20 @@ const imageSchema = new mongoose.Schema({
   },
   prompt: {
     type: String,
-    required: true
+    required: true,
+    trim: true
   },
   imageUrl: {
     type: String,
     required: true
+  },
+  isImageToImage: {
+    type: Boolean,
+    default: false
+  },
+  originalImageName: {
+    type: String,
+    default: null
   },
   createdAt: {
     type: Date,

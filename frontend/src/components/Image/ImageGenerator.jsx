@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Image, ImageUp, Loader2, Plus } from 'lucide-react';
+import { Image, ImageUp, Loader2, Plus, X } from 'lucide-react';
 import api from '../../services/api';
 
 const ImageGenerator = () => {
@@ -7,10 +7,23 @@ const ImageGenerator = () => {
   const [loading, setLoading] = useState(false);
   const [generatedImage, setGeneratedImage] = useState(null);
   const [history, setHistory] = useState([]);
+  const [selectedFile, setSelectedFile] = useState(null);
+  const [previewUrl, setPreviewUrl] = useState(null);
 
   useEffect(() => {
     loadImageHistory();
   }, []);
+
+  useEffect(() => {
+
+    if (selectedFile) {
+      const url = URL.createObjectURL(selectedFile);
+      setPreviewUrl(url);
+      return () => URL.revokeObjectURL(url);
+    } else {
+      setPreviewUrl(null);
+    }
+  }, [selectedFile]);
 
   const loadImageHistory = async () => {
     try {
@@ -27,9 +40,24 @@ const ImageGenerator = () => {
 
     setLoading(true);
     try {
-      const response = await api.image.generate(prompt);
+      let response;
+      
+      if (selectedFile) {
+     
+        const formData = new FormData();
+        formData.append('prompt', prompt);
+        formData.append('image', selectedFile);
+        
+        response = await api.image.generateImageToImage(formData);
+      } else {
+      
+        response = await api.image.generate(prompt);
+      }
+      
       setGeneratedImage(response.imageUrl);
       setPrompt('');
+      setSelectedFile(null);
+      setPreviewUrl(null);
       loadImageHistory();
     } catch (err) {
       console.error('Failed to generate image:', err);
@@ -38,7 +66,28 @@ const ImageGenerator = () => {
     }
   };
 
-  const [selectedFile, setSelectedFile] = useState(null);
+  const removeSelectedFile = () => {
+    setSelectedFile(null);
+    setPreviewUrl(null);
+  };
+
+  const handleFileChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      
+      if (!file.type.startsWith('image/')) {
+        alert('Please select an image file');
+        return;
+      }
+      
+      if (file.size > 10 * 1024 * 1024) {
+        alert('File size must be less than 10MB');
+        return;
+      }
+      
+      setSelectedFile(file);
+    }
+  };
 
   return (
     <div className="flex flex-col h-full">
@@ -52,13 +101,36 @@ const ImageGenerator = () => {
 
       <div className="flex-1 overflow-y-auto p-3 sm:p-4">
         <div className="mb-4 sm:mb-6">
+     
+          {previewUrl && (
+            <div className="mb-4 relative">
+              <div className="relative inline-block">
+                <img
+                  src={previewUrl}
+                  alt="Upload preview"
+                  className="max-w-48 max-h-48 rounded-lg border border-gray-300 object-cover"
+                />
+                <button
+                  onClick={removeSelectedFile}
+                  className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full p-1 hover:bg-red-600 transition-colors"
+                >
+                  <X className="w-4 h-4" />
+                </button>
+              </div>
+              <p className="text-sm text-gray-600 mt-2">
+                Image-to-image mode: Your image will be modified based on the prompt
+              </p>
+            </div>
+          )}
+
           <div className="flex flex-col sm:flex-row gap-2">
             <div className='flex justify-center items-center w-10'>
               <input
                 type="file"
-                onChange={e => setSelectedFile(e.target.files[0])}
+                onChange={handleFileChange}
                 className="hidden"
                 id="file-upload"
+                accept="image/*"
               />
               <label htmlFor="file-upload" className="cursor-pointer">
                 {selectedFile ? (
@@ -73,7 +145,7 @@ const ImageGenerator = () => {
               value={prompt}
               onChange={(e) => setPrompt(e.target.value)}
               onKeyPress={(e) => e.key === 'Enter' && generateImage(e)}
-              placeholder="Describe the image you want to generate..."
+              placeholder={selectedFile ? "Describe how to modify the uploaded image..." : "Describe the image you want to generate..."}
               className="flex-1 px-3 sm:px-4 py-2 sm:py-3 text-sm sm:text-base border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
               disabled={loading}
             />
@@ -85,15 +157,23 @@ const ImageGenerator = () => {
               {loading ? (
                 <>
                   <Loader2 className="w-3 h-3 sm:w-4 sm:h-4 animate-spin" />
-                  <span className="hidden sm:inline">Generating...</span>
+                  <span className="hidden sm:inline">
+                    {selectedFile ? 'Modifying...' : 'Generating...'}
+                  </span>
                 </>
               ) : (
                 <>
-                  <span>Generate</span>
+                  <span>{selectedFile ? 'Modify Image' : 'Generate'}</span>
                 </>
               )}
             </button>
           </div>
+          
+          {!selectedFile && (
+            <p className="text-xs text-gray-500 mt-2">
+              Upload an image to use image-to-image generation, or just enter a prompt for text-to-image
+            </p>
+          )}
         </div>
 
         {generatedImage && (
@@ -133,6 +213,11 @@ const ImageGenerator = () => {
                   <p className="text-xs text-gray-400">
                     {new Date(image.createdAt).toLocaleDateString()}
                   </p>
+                  {image.isImageToImage && (
+                    <span className="inline-block text-xs bg-green-100 text-green-800 px-2 py-1 rounded-full mt-1">
+                      Image-to-Image
+                    </span>
+                  )}
                 </div>
               ))}
             </div>

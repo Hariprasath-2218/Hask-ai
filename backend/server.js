@@ -43,4 +43,4 @@ app.listen(PORT, () => {
 
 
 // THIS IS THE ONLY CHANGE: Export the app instance
-// module.exports = app;
+module.exports = app;

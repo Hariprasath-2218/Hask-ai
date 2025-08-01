@@ -1,5 +1,5 @@
 const api = { 
-  baseURL: 'hask-ai-backend/api',
+  baseURL: '/api',
 
   async request(endpoint, options = {}) {
     const token = localStorage.getItem('token');

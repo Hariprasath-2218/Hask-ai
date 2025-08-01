@@ -1,5 +1,5 @@
 const api = { 
-  baseURL: '/api',
+  baseURL: 'https://hask-ai-backend.vercel.app/api',
 
   async request(endpoint, options = {}) {
     const token = localStorage.getItem('token');

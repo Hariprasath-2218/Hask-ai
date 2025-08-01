@@ -24,14 +24,13 @@ const limiter = rateLimit({
 });
 app.use(limiter);
 
-// In your server.js, replace the CORS configuration with this:
-
+// CORS configuration - THIS WAS MISSING!
 app.use(cors({
   origin: [
     'https://hask-ai.vercel.app',
     'http://localhost:3000',
     'http://localhost:3001',
-    // Add your actual frontend URL here
+    process.env.FRONTEND_URL || 'http://localhost:3000'
   ],
   credentials: true,
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
@@ -45,7 +44,7 @@ app.use(cors({
   optionsSuccessStatus: 200 // For legacy browser support
 }));
 
-// Add explicit OPTIONS handler
+// Add explicit OPTIONS handler for preflight requests
 app.options('*', cors());
 
 app.use(express.json({ limit: '10mb' }));
@@ -63,11 +62,8 @@ app.use((err, req, res, next) => {
 const PORT = process.env.PORT || 5000;
 
 // For serverless deployment (Vercel), export the app
-if (process.env.NODE_ENV === 'production' && process.env.VERCEL) {
-  module.exports = app;
-} else {
+module.exports = app;
   // For local development
-  app.listen(PORT, () => {
-    console.log(`Server running on port ${PORT}`);
-  });
-}
+// app.listen(PORT, () => {
+//   console.log(`Server running on port ${PORT}`);
+// });

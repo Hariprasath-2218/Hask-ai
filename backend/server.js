@@ -35,12 +35,12 @@ app.use((err, req, res, next) => {
 });
 
 // The following lines are removed for Vercel deployment
-/*
-const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
-});
-*/
+
+// const PORT = process.env.PORT || 5000;
+// app.listen(PORT, () => {
+//   console.log(`Server running on port ${PORT}`);
+// });
+
 
 // THIS IS THE ONLY CHANGE: Export the app instance
 module.exports = app;

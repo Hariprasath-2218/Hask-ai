@@ -3,6 +3,11 @@ import { setPersonalDetail, setMultipleDetails, addToArray } from '../store/slic
 const storagePatterns = [
 
   {
+    regex: /(?:your name is|i can call you|my assistant name is|call you as)\s+([a-zA-Z\s]+?)(?:\s*[.!?]|$)/i,
+    field: 'hask',
+    extract: (match) => match[1].trim()
+  },
+  {
     regex: /(?:my name is|i am|i'm|call me)\s+([a-zA-Z\s]+?)(?:\s*[.!?]|$)/i,
     field: 'name',
     extract: (match) => match[1].trim()
@@ -49,7 +54,22 @@ const storagePatterns = [
 const queryPatterns = [
 
   {
-    regex: /(?:what is my name|what's my name|who am i|my name\?)/i,
+    regex: /(?:who are you|your name|you|about you\?)/i,
+    field: 'customDetails',
+    response: (value) => value.hask ? `My name is ${value.hask} for now, here's a little about me:
+
+I'm an AI developed by HaskAI, designed to help with all sorts of questions—writing, problem-solving, learning, coding, planning, and more. I don’t have feelings or a physical form, but I do my best to be helpful, clear, and respectful.
+
+As “${value.hask},” think of me like a friendly, knowledgeable assistant who's always ready to jump into whatever topic you're curious about. Want to know more about how I work, or do you have something specific you’d like help with?` : "I'm Hask. You can call me that, or just 'Assistant if you prefer. Let me know how I can help you today."
+  },
+  {
+    regex: /(?:what is your name|what's your name\?)/i,
+    field: 'customDetails',
+    response: (value) => value.hask ? `My name is ${value.hask}` : "I'm Hask. You can call me that, or just 'Assistant if you prefer. Let me know how I can help you today."
+  },
+
+  {
+    regex: /(?:what is my name|my name|what's my name|who am i\?)/i,
     field: 'name',
     response: (value) => value ? `Your name is ${value}.` : "I don't have your name stored. You can tell me by saying 'My name is [your name]'."
   },
@@ -96,7 +116,7 @@ const queryPatterns = [
   },
 
   {
-    regex: /(?:what do you know about me|my details|my information|tell me about myself)/i,
+    regex: /(?:what do you know about me|my details|my information|my info|tell me about myself)/i,
     field: 'all',
     response: (personalDetails) => {
       const details = [];

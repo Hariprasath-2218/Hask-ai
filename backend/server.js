@@ -7,13 +7,20 @@ require('dotenv').config();
 
 const app = express();
 
+// Trust proxy - this is crucial for serverless/proxy environments
+app.set('trust proxy', true);
+
 connectDB();
 
 app.use(helmet());
 
 const limiter = rateLimit({
   windowMs: 15 * 60 * 1000,
-  max: 100 
+  max: 100,
+  // Optional: Add custom key generator if needed
+  keyGenerator: (req) => {
+    return req.ip; // This will now correctly use the forwarded IP
+  }
 });
 app.use(limiter);
 
@@ -34,13 +41,14 @@ app.use((err, req, res, next) => {
   res.status(500).json({ message: 'Something went wrong!' });
 });
 
-// The following lines are removed for Vercel deployment
-
 const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
-});
 
-
-// THIS IS THE ONLY CHANGE: Export the app instance
-module.exports = app;
+// For serverless deployment (Vercel), export the app
+if (process.env.NODE_ENV === 'production' && process.env.VERCEL) {
+  module.exports = app;
+} else {
+  // For local development
+  app.listen(PORT, () => {
+    console.log(`Server running on port ${PORT}`);
+  });
+}

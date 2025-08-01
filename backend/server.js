@@ -24,10 +24,29 @@ const limiter = rateLimit({
 });
 app.use(limiter);
 
+// In your server.js, replace the CORS configuration with this:
+
 app.use(cors({
-  origin: process.env.FRONTEND_URL || 'http://localhost:3000',
-  credentials: true
+  origin: [
+    'https://hask-ai.vercel.app',
+    'http://localhost:3000',
+    'http://localhost:3001',
+    // Add your actual frontend URL here
+  ],
+  credentials: true,
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: [
+    'Content-Type', 
+    'Authorization', 
+    'X-Requested-With',
+    'Accept',
+    'Origin'
+  ],
+  optionsSuccessStatus: 200 // For legacy browser support
 }));
+
+// Add explicit OPTIONS handler
+app.options('*', cors());
 
 app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ extended: true }));

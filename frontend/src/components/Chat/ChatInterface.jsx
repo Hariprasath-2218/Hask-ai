@@ -309,7 +309,7 @@ const ChatInterface = () => {
               message.sender === 'user' 
                 ? 'bg-blue-600 text-white w-6 h-6' 
                 : message.isLocal
-                ? 'bg-gray-100 text-gray-600 w-8 h-8'
+                ? 'bg-gray-100 text-blue-600 w-5 h-5 border-2 border-solid border-blue-600'
                 : 'bg-gray-100 text-blue-600 w-5 h-5 border-2 border-solid border-blue-600'
             }`}>
               {message.sender === 'user' ? (

@@ -2,7 +2,7 @@
 
 Hask AI is an intelligent chatbot web application that integrates both **text-to-text** and **text-to-image** generation using the **Groq AI API** and **Hugging Face API**. Designed with modern full-stack architecture, it delivers secure user authentication, interactive chat experience, and dynamic image generation — all in one.
 
-<a href="https://hask-ai.vercel.app"><img src="https://ik.imagekit.io/48vn2y3yn/Hask.png?updatedAt=1754120210758" /></a><!-- Optional: replace with actual banner -->
+<center><a href="https://hask-ai.vercel.app"><img width="100px" src="https://ik.imagekit.io/48vn2y3yn/Hask.png?updatedAt=1754120210758" /></a></center><!-- Optional: replace with actual banner -->
 
 ---
 
@@ -88,4 +88,5 @@ npm run dev
 
 
 Made with ❤️ by Hariprasath G
+
 

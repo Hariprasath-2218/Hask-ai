@@ -9,8 +9,8 @@ Hask AI is an intelligent AI web application that integrates both **text-to-text
 ## 🚀 Features
 
 - 💬 **AI Chatbot** – Real-time intelligent responses using Groq’s LLM
-- 🖼️ **Image Generator** – Converts text prompts into AI-generated images
-- 🔐 **Secure Authentication** – Firebase Authentication for sign-up, login, and profile management
+- 🖼️ **Image Generator** – Converts text prompts into AI-generated images and upload the images to modify that images using this AI
+- 🔐 **Secure Authentication** – JWT Authentication for sign-up, login, and profile management
 - 🌐 **Full-Stack MERN** – Built with React, Node.js, Express, and MongoDB
 - 🎨 **Modern UI** – Responsive, user-friendly frontend with clean design
 
@@ -97,6 +97,7 @@ npm run dev
 
 
 Made with ❤️ by Hariprasath G
+
 
 
 

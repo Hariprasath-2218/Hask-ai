@@ -1,6 +1,6 @@
-﻿# <a href="https://hask-ai.vercel.app" styles={text-decoration:none;color:white}><img width="30px" src="https://ik.imagekit.io/48vn2y3yn/Hask.png?updatedAt=1754120210758" />Hask AI</a>
+﻿# <a href="https://hask-ai.vercel.app" styles={text-decoration:none;color:white}><img width="30px" src="https://ik.imagekit.io/48vn2y3yn/Hask.png?updatedAt=1754120210758" /> Hask AI</a>
 
-Hask AI is an intelligent chatbot web application that integrates both **text-to-text** and **text-to-image** generation using the **Groq AI API** and **Hugging Face API**. Designed with modern full-stack architecture, it delivers secure user authentication, interactive chat experience, and dynamic image generation — all in one.
+Hask AI is an intelligent AI web application that integrates both **text-to-text** and **text-to-image** generation using the **Groq AI API** and **Hugging Face API** and for **image-to-image** generation using **Gemini AI API** . Designed with modern full-stack architecture, it delivers secure user authentication, interactive chat experience, and dynamic image generation — all in one.
 
 <center><a href="https://hask-ai.vercel.app"><img width="100px" src="https://ik.imagekit.io/48vn2y3yn/Hask.png?updatedAt=1754120210758" /></a></center><!-- Optional: replace with actual banner -->
 
@@ -25,11 +25,11 @@ Hask AI is an intelligent chatbot web application that integrates both **text-to
 
 ## 🛠️ Tech Stack
 
-| Frontend        | Backend        | APIs Used         | Auth             |
-|-----------------|----------------|-------------------|------------------|
-| React.js        | Node.js        | Groq AI (LLM)     |     |
-| Tailwind CSS    | Express.js     | Hugging Face (T2I)|   JWT Auth    |
-| Vite            | MongoDB        | Gemini (I2I)  |     |
+| Frontend        | Backend        | APIs Used         | Models Used| Auth             |
+|-----------------|----------------|-------------------|------------|------------------|
+| React.js        | Node.js        | Groq AI (LLM)     | llama3-8b-8192    |
+| Tailwind CSS    | Express.js     | Hugging Face (T2I)| black-forest-labs/flux-dev |  JWT Auth    |
+| Vite            | MongoDB        | Gemini (I2I)  |  gemini-2.5-flash  |    |
 
 ---
 
@@ -50,44 +50,54 @@ hask-ai-website/
 │   ├── controllers/
 │   ├── models/
 │   └── server.js
-
+```
 ## 🔐 Environment Variables
 
-GROQ_API_KEY=your_groq_key
-HUGGINGFACE_API_KEY=your_huggingface_token
-MONGO_URI=your_mongodb_connection_string
-PORT=5000
+- GROQ_API_KEY=your_groq_key
+- HUGGINGFACE_API_KEY=your_huggingface_token
+- GEMINI_API_KEY=your_gemini_key
+- MONGO_URI=your_mongodb_connection_string
+- JWT_SECRET=your_secret_key
+- PORT=your_choice
+- FRONTEND_URL=your_frontend_url (ex: http://localhost:3000 )
 
 ## 🧪 How to Run Locally
 
 # 1. Clone the repo
+```bash
 git clone https://github.com/Hariprasath-2218/Hask-ai.git
-cd hask-ai-website
+cd hask-ai
+```
 
 # 2. Setup backend
+```bash
 cd backend
 npm install
 npm run dev
+```
 
 # 3. Setup frontend
+```bash
 cd ../frontend
 npm install
 npm run dev
+```
 
 ## 🧠 Future Improvements
 
--🗂️ Add chat history with MongoDB
+- 🗂️ Add chat history with MongoDB
 
--🧠 Allow model selection (Groq, OpenAI, etc.)
+- 🧠 Allow model selection (Groq, OpenAI, etc.)
 
--📸 Improve image generation fidelity and resolution
+- 📸 Improve image generation fidelity and resolution
 
--🪪 Use JWT with Firebase for enhanced security
+- 🪪 Use JWT with Firebase for enhanced security
 
 ## 👨‍💻 Author
 
 
 Made with ❤️ by Hariprasath G
+
 
 
 

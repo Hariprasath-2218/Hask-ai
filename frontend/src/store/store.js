@@ -8,7 +8,7 @@ import personalDetailsReducer from './slices/personalDetailsSlice';
 const persistConfig = {
   key: 'root',
   storage,
-  whitelist: ['personalDetails'] // Only persist personalDetails
+  whitelist: ['personalDetails'] 
 };
 
 

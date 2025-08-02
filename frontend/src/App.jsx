@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Provider } from 'react-redux';
 import { PersistGate } from 'redux-persist/integration/react';
-import { MessageCircle, Image, LogOut, User, Loader2 } from "lucide-react"; 
+import { MessageCircle, MessageCirclePlus, Image, LogOut, User, Loader2 } from "lucide-react"; 
 import { useAuth } from "./context/AuthContext";
 import Login from "./components/Auth/Login";
 import Register from "./components/Auth/Register";
@@ -92,6 +92,19 @@ const AppContent = () => {
             <nav className="flex-1 px-2 sm:px-4 space-y-2">
               
               <button
+                onClick={() => setActiveTab('newChat')}
+                className={`w-full flex items-center justify-center sm:justify-start space-x-3 px-2 sm:px-4 py-2 rounded-lg text-left transition-colors duration-200 ${
+                  activeTab === 'newChat'
+                    ? 'bg-blue-100 text-blue-700 font-semibold'
+                    : 'text-gray-600 hover:bg-gray-100'
+                }`}
+                title="Chat AI"
+              >
+                <MessageCirclePlus className="w-5 h-5" />
+                <span className="hidden sm:inline">New Chat</span>
+              </button>
+
+              <button
                 onClick={() => setActiveTab('chat')}
                 className={`w-full flex items-center justify-center sm:justify-start space-x-3 px-2 sm:px-4 py-2 rounded-lg text-left transition-colors duration-200 ${
                   activeTab === 'chat'
@@ -121,6 +134,7 @@ const AppContent = () => {
 
          
           <div className="flex-1 flex flex-col">
+            {activeTab === 'newChat' && <ChatInterface />}
             {activeTab === 'chat' && <ChatInterface />}
             {activeTab === 'image' && <ImageGenerator />}
           </div>

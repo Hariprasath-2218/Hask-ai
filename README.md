@@ -27,9 +27,9 @@ Hask AI is an intelligent chatbot web application that integrates both **text-to
 
 | Frontend        | Backend        | APIs Used         | Auth             |
 |-----------------|----------------|-------------------|------------------|
-| React.js        | Node.js        | Groq AI (LLM)     | Firebase Auth    |
-| Tailwind CSS    | Express.js     | Hugging Face (T2I)| Firestore DB     |
-| Vite            | MongoDB        | Axios             | JWT (planned)    |
+| React.js        | Node.js        | Groq AI (LLM)     |     |
+| Tailwind CSS    | Express.js     | Hugging Face (T2I)|   JWT Auth    |
+| Vite            | MongoDB        | Gemini (I2I)  |     |
 
 ---
 
@@ -88,6 +88,7 @@ npm run dev
 
 
 Made with ❤️ by Hariprasath G
+
 
 
 

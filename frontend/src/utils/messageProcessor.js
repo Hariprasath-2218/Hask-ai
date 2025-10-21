@@ -55,17 +55,17 @@ const queryPatterns = [
 
   {
     regex: /(?:who are you|your name|you|about you\?)/i,
-    field: 'customDetails',
-    response: (value) => value.hask ? `My name is ${value.hask} for now, here's a little about me:
+    field: 'hask',
+    response: (value) => value ? `My name is ${value} for now, here's a little about me:
 
 I'm an AI developed by HaskAI, designed to help with all sorts of questions—writing, problem-solving, learning, coding, planning, and more. I don’t have feelings or a physical form, but I do my best to be helpful, clear, and respectful.
 
-As “${value.hask},” think of me like a friendly, knowledgeable assistant who's always ready to jump into whatever topic you're curious about. Want to know more about how I work, or do you have something specific you’d like help with?` : "I'm Hask. You can call me that, or just 'Assistant if you prefer. Let me know how I can help you today."
+As “${value},” think of me like a friendly, knowledgeable assistant who's always ready to jump into whatever topic you're curious about. Want to know more about how I work, or do you have something specific you’d like help with?` : "I'm Hask. You can call me that, or just 'Assistant if you prefer. Let me know how I can help you today."
   },
   {
     regex: /(?:what is your name|what's your name\?)/i,
-    field: 'customDetails',
-    response: (value) => value.hask ? `My name is ${value.hask}` : "I'm Hask. You can call me that, or just 'Assistant if you prefer. Let me know how I can help you today."
+    field: 'hask',
+    response: (value) => value ? `My name is ${value}` : "I'm Hask. You can call me that, or just 'Assistant if you prefer. Let me know how I can help you today."
   },
 
   {
@@ -87,7 +87,7 @@ As “${value.hask},” think of me like a friendly, knowledgeable assistant who
   },
  
   {
-    regex: /(?:what is my job|what do i do|my occupation|my job\?)/i,
+    regex: /(?:what is my job|what do i do|my occupation|i work as|my job\?)/i,
     field: 'occupation',
     response: (value) => value ? `You work as a ${value}.` : "I don't have your occupation stored. You can tell me by saying 'I work as [occupation]'."
   },
@@ -116,7 +116,7 @@ As “${value.hask},” think of me like a friendly, knowledgeable assistant who
   },
 
   {
-    regex: /(?:what do you know about me|my details|my information|my info|tell me about myself)/i,
+    regex: /(?:about me|tell about me|what do you know about me|my details|my information|my info|tell me about myself)/i,
     field: 'all',
     response: (personalDetails) => {
       const details = [];
@@ -141,7 +141,7 @@ As “${value.hask},” think of me like a friendly, knowledgeable assistant who
         return "I don't have any personal information about you stored yet. You can share details like your name, age, location, etc.";
       }
       
-      return `Here's what I know about you:\n\n${details.join('\n')}`;
+      return `Here's what I know about you:\n\n${details.join('\n\n')}`;
     }
   }
 ];
@@ -152,6 +152,29 @@ export const processMessage = (message, personalDetails, dispatch) => {
   console.log('Processing message:', message);
   console.log('Current personal details:', personalDetails);
   
+  const multiDetailRegex = /(?:my name is|i am|i'm|i live in|i work as|my job is|my age is|my email is|my phone is|my hobbies are)[^.!?]*?(?:,| and )/i;
+  if (multiDetailRegex.test(message)) {
+    const multipleDetails = {};
+
+    storagePatterns.forEach(pattern => {
+      const match = message.match(pattern.regex);
+      if (match) {
+        const extractedValue = pattern.extract(match);
+        multipleDetails[pattern.field] = extractedValue;
+      }
+    });
+
+    if (Object.keys(multipleDetails).length > 0) {
+      console.log('Dispatching setMultipleDetails:', multipleDetails);
+      dispatch(setMultipleDetails(multipleDetails));
+      return {
+        isPersonalStorage: true,
+        response: `Got it! I've saved multiple details: ${Object.entries(multipleDetails)
+          .map(([key, value]) => `${key}: ${Array.isArray(value) ? value.join(', ') : value}`)
+          .join(', ')}.`
+      };
+    }
+  }
 
   for (const pattern of storagePatterns) {
     const match = message.match(pattern.regex);
